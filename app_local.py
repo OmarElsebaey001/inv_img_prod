@@ -8,6 +8,9 @@ from jinja2 import Template
 from flask import send_file,make_response
 from helper import create_image 
 import io 
+from random import randint
+import os
+
 app = Flask(__name__)
 @app.route("/",methods=['GET','POST'])
 def show():
@@ -21,12 +24,9 @@ def show():
     capital = int(capital)
     total = int(total)
     print(f"processing {capital} and {total}")
+    f_name_1 = str(randint(0,5000))+".jpeg"
     full_pic = create_image(capital,total,sub_name,wealth_manager)
-    buf = io.BytesIO()
-    full_pic.save(buf, "JPEG", quality=80, optimize=True, progressive=True)
-    buf.seek(0)
-    response = make_response(send_file(buf,mimetype='image/jpeg'))
-    buf.flush()
-    return response
+    full_pic.save(f_name_1, "JPEG", quality=80, optimize=True, progressive=True)
+    return send_file(f_name_1,mimetype='image/jpeg')
 if __name__ == "__main__":
     app.run()

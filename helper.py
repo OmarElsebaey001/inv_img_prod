@@ -7,6 +7,10 @@ from PIL import ImageFont
 from PIL import ImageDraw
 import matplotlib
 import io
+from random import randint
+import os
+
+
 matplotlib.pyplot.switch_backend('Agg')
 matplotlib.use('agg')
 def convertImage(img):
@@ -100,11 +104,10 @@ def create_image(capital,total,sub_name,wealth_manager):
     s_x.set(xlabel=None)
     s_x.set(xticklabels=[])
     s_x.set_yticklabels(y_ticks, size = 30)
-    buf = io.BytesIO()
-    plt.savefig(buf, format='jpeg',dpi=170)
-    buf.seek(0)
-    chart_img = Image.open(buf)
+    f_name = str(randint(0,5000)) + ".jpeg"
+    plt.savefig(f_name, format='jpeg',dpi=170)
+    chart_img = Image.open(f_name)
     foreground  = convertImage(chart_img)
     background.paste(foreground, (1100,2500), foreground)
-    buf.close()
+    os.remove(f_name)
     return background
