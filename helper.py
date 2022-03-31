@@ -80,8 +80,8 @@ def create_image(capital,total,sub_name,wealth_manager):
     colors = ["#25302a", "#ecfa00", "#bccbc9"];
     palette=colors;
     sns.set_theme(style="white", palette=palette,rc=custom_params);
-    s2 = sns.barplot(x = 'Day', y = 'Price 1', data = df);
-    s1 = sns.barplot(x = 'Day', y = 'Price 2', data = df, color = 'white');
+    s1 = sns.barplot(x = 'Day', y = 'Price 1', data = df);
+    s2 = sns.barplot(x = 'Day', y = 'Price 2', data = df, color = 'white');
     ann_txt = [capital,tot_cap_diff,total]
     ann_txt = [f'{i:,}' for i in ann_txt]
     if (tot_cap_diff > 0):
@@ -89,17 +89,17 @@ def create_image(capital,total,sub_name,wealth_manager):
     ann = ["yellow","black","black"]
     y_ticks = s2.get_yticks()
     y_ticks = [f'{i:,}' for i in y_ticks]
-
-    for index,p in enumerate(s2.patches):
+    s_x = s1
+    for index,p in enumerate(s_x.patches):
         if(index > 2) :
             break
-        s2.annotate(f'\n{ann_txt[index]}',
+        s_x.annotate(f'\n{ann_txt[index]}',
                     (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='top', color=ann[index], size=30)
-    s2.set(xlabel=None)
-    s2.set(ylabel=None)
-    s2.set(xlabel=None)
-    s2.set(xticklabels=[])
-    s2.set_yticklabels(y_ticks, size = 30)
+    s_x.set(xlabel=None)
+    s_x.set(ylabel=None)
+    s_x.set(xlabel=None)
+    s_x.set(xticklabels=[])
+    s_x.set_yticklabels(y_ticks, size = 30)
     buf = io.BytesIO()
     plt.savefig(buf, format='jpeg',dpi=170)
     buf.seek(0)
