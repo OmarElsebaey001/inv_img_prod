@@ -21,7 +21,7 @@ def convertImage(img):
     img.putdata(newData)
     return img
 def create_image(capital,total,sub_name,wealth_manager):
-    tot_cap_diff = round(total - capital, 2)
+    tot_cap_diff = total - capital
     sub_name_font = ImageFont.truetype(r'Nexa Light.otf', 100)
     sub_name_loc  = (1700,850)
     sub_name_col  = (55,57,54)
