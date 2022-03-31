@@ -1,5 +1,5 @@
 from operator import methodcaller
-from flask import Flask,render_template
+from flask import make_response,Flask,render_template
 from flask import request, jsonify
 from PIL import Image
 from PIL import ImageFont
@@ -26,7 +26,9 @@ def create_app() :
         buf = io.BytesIO()
         full_pic.save(buf, "JPEG", quality=80, optimize=True, progressive=True)
         buf.seek(0)
-        return send_file(buf,mimetype='image/jpeg')
+        response = make_response(send_file(buf,mimetype='image/jpeg'))
+        buf.flush()
+        return response
     
     if __name__ == "__main__":
         app.run()
