@@ -84,39 +84,30 @@ def create_image(capital,total,sub_name,wealth_manager):
     colors = ["#25302a", "#ecfa00", "#bccbc9"]
     palette=colors
     sns.set_theme(style="white", palette=palette,rc=custom_params);
-    s1 = sns.barplot(x = 'Day', y = 'Price 1', data = df)
-    s_x = s1 
+    sx = sns.barplot(x = 'Day', y = 'Price 1', data = df)
     ann_txt = [capital,tot_cap_diff,total]
     ann_txt = [f'{i:,}' for i in ann_txt]
     if (tot_cap_diff > 0):
         ann_txt[1] = sign + ann_txt[1]
     ann = ["yellow","black","black"]
-    for index,p in enumerate(s_x.patches):
+    for index,p in enumerate(sx.patches):
         if(index > 2) :
             break
         print(f"Now processing the patch index{index}",p)
         print("Will annotate with : " , ann_txt[index])
-        s_x.annotate(f'\n{ann_txt[index]}',
+        sx.annotate(f'\n{ann_txt[index]}',
                     (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='top', color=ann[index], size=30)
     sns.barplot(x = 'Day', y = 'Price 2', data = df, color = 'white')
-    y_ticks = s1.get_yticks()
+    y_ticks = sx.get_yticks()
     y_ticks = [f'{i:,}' for i in y_ticks]
-    s_x = s1
-    print(s_x.patches)
-    for index,p in enumerate(s_x.patches):
-        if(index > 2) :
-            break
-        print(f"Now processing the patch index{index}",p)
-        print("Will annotate with : " , ann_txt[index])
-        s_x.annotate(f'\n{ann_txt[index]}',
-                    (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='top', color=ann[index], size=30)
-    s_x.set(xlabel=None)
-    s_x.set(ylabel=None)
-    s_x.set(xlabel=None)
-    s_x.set(xticklabels=[])
-    s_x.set_yticklabels(y_ticks, size = 30)
+    sx.set(xlabel=None)
+    sx.set(ylabel=None)
+    sx.set(xlabel=None)
+    sx.set(xticklabels=[])
+    sx.set_yticklabels(y_ticks, size = 30)
     f_name = str(randint(0,5000)) + ".jpeg"
     plt.savefig(f_name, format='jpeg',dpi=170)
+    plt.clf()
     chart_img = Image.open(f_name)
     foreground  = convertImage(chart_img)
     background.paste(foreground, (1100,2500), foreground)
