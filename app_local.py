@@ -19,6 +19,7 @@ def show():
     sub_name       = request.args.get('cl_nm', default = 1, type = str)
     wealth_manager = request.args.get('wlt_mng', default = 1, type = str)
     wealth_number  = request.args.get('wlt_mng_nm', default = 1, type = str)
+    print("here is the wealth number ",wealth_number) 
     wlt_mang_num   = f"+{wealth_number[0:2]} {wealth_number[2:7]} {wealth_number[7:]}"
     wealth_manager = wealth_manager + f": {wlt_mang_num}"
     capital = int(capital)

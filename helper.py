@@ -25,7 +25,7 @@ def convertImage(img):
     img.putdata(newData)
     return img
 def create_image(capital,total,sub_name,wealth_manager):
-    tot_cap_diff = total - capital
+    tot_cap_diff = int(total - capital)
     sub_name_font = ImageFont.truetype(r'Nexa Light.otf', 100)
     sub_name_loc  = (1700,850)
     sub_name_col  = (55,57,54)
@@ -81,22 +81,33 @@ def create_image(capital,total,sub_name,wealth_manager):
                     'figure.figsize':(15,8),
                     "figure.autolayout": True,
                     }
-    colors = ["#25302a", "#ecfa00", "#bccbc9"];
-    palette=colors;
+    colors = ["#25302a", "#ecfa00", "#bccbc9"]
+    palette=colors
     sns.set_theme(style="white", palette=palette,rc=custom_params);
-    s1 = sns.barplot(x = 'Day', y = 'Price 1', data = df);
-    s2 = sns.barplot(x = 'Day', y = 'Price 2', data = df, color = 'white');
+    s1 = sns.barplot(x = 'Day', y = 'Price 1', data = df)
+    s_x = s1 
     ann_txt = [capital,tot_cap_diff,total]
     ann_txt = [f'{i:,}' for i in ann_txt]
     if (tot_cap_diff > 0):
         ann_txt[1] = sign + ann_txt[1]
     ann = ["yellow","black","black"]
-    y_ticks = s2.get_yticks()
-    y_ticks = [f'{i:,}' for i in y_ticks]
-    s_x = s1
     for index,p in enumerate(s_x.patches):
         if(index > 2) :
             break
+        print(f"Now processing the patch index{index}",p)
+        print("Will annotate with : " , ann_txt[index])
+        s_x.annotate(f'\n{ann_txt[index]}',
+                    (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='top', color=ann[index], size=30)
+    sns.barplot(x = 'Day', y = 'Price 2', data = df, color = 'white')
+    y_ticks = s1.get_yticks()
+    y_ticks = [f'{i:,}' for i in y_ticks]
+    s_x = s1
+    print(s_x.patches)
+    for index,p in enumerate(s_x.patches):
+        if(index > 2) :
+            break
+        print(f"Now processing the patch index{index}",p)
+        print("Will annotate with : " , ann_txt[index])
         s_x.annotate(f'\n{ann_txt[index]}',
                     (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='top', color=ann[index], size=30)
     s_x.set(xlabel=None)
