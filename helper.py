@@ -90,7 +90,7 @@ def create_image(capital,total,sub_name,wealth_manager):
     y_ticks = s2.get_yticks()
     y_ticks = [f'{i:,}' for i in y_ticks]
 
-    for index,p in enumerate(s1.patches):
+    for index,p in enumerate(s2.patches):
         if(index > 2) :
             break
         s2.annotate(f'\n{ann_txt[index]}',
