@@ -7,6 +7,7 @@ from PIL import ImageDraw
 from jinja2 import Template
 from flask import send_file
 from helper import create_image 
+import io 
 
 def create_app() :
     app = Flask(__name__)
@@ -20,9 +21,11 @@ def create_app() :
         wlt_mang_num   = f"+{wealth_number[0:2]} {wealth_number[2:7]} {wealth_number[7:]}"
         wealth_manager = wealth_manager + f": {wlt_mang_num}"
         full_pic = create_image(capital,total,sub_name,wealth_manager)
-        full_pic.save("processed_123.jpeg", "JPEG", quality=80, optimize=True, progressive=True)
-        return send_file("processed_123.jpeg")
-
+        buf = io.BytesIO()
+        full_pic.save(buf, "JPEG", quality=80, optimize=True, progressive=True)
+        buf.seek(0)
+        return send_file(buf,mimetype='image/jpeg')
+    
     if __name__ == "__main__":
         app.run()
     return app 
