@@ -18,6 +18,9 @@ def show():
     wealth_number  = request.args.get('wlt_mng_nm', default = 1, type = str)
     wlt_mang_num   = f"+{wealth_number[0:2]} {wealth_number[2:7]} {wealth_number[7:]}"
     wealth_manager = wealth_manager + f": {wlt_mang_num}"
+    capital = int(capital)
+    total = int(total)
+    print(f"processing {capital} and {total}")
     full_pic = create_image(capital,total,sub_name,wealth_manager)
     buf = io.BytesIO()
     full_pic.save(buf, "JPEG", quality=80, optimize=True, progressive=True)
