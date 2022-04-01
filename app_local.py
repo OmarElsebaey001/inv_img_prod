@@ -19,15 +19,14 @@ def show():
     sub_name       = request.args.get('cl_nm', default = 1, type = str)
     wealth_manager = request.args.get('wlt_mng', default = 1, type = str)
     wealth_number  = request.args.get('wlt_mng_nm', default = 1, type = str)
-    print("here is the wealth number ",wealth_number) 
     wlt_mang_num   = f"+{wealth_number[0:2]} {wealth_number[2:7]} {wealth_number[7:]}"
     wealth_manager = wealth_manager + f": {wlt_mang_num}"
     capital = int(capital)
     total = int(total)
-    print(f"processing {capital} and {total}")
-    f_name_1 = str(randint(0,5000))+".jpeg"
     full_pic = create_image(capital,total,sub_name,wealth_manager)
-    full_pic.save(f_name_1, "JPEG", quality=80, optimize=True, progressive=True)
-    return send_file(f_name_1,mimetype='image/jpeg')
+    buf = io.BytesIO()
+    full_pic.save(buf, "JPEG", quality=80, optimize=True, progressive=True)
+    buf.seek(0)
+    return send_file(buf,mimetype='image/jpeg')
 if __name__ == "__main__":
     app.run()

@@ -23,10 +23,12 @@ def create_app() :
         wealth_manager = wealth_manager + f": {wlt_mang_num}"
         capital = int(capital)
         total = int(total)
-        f_name_1 = str(randint(0,5000))+".jpeg"
         full_pic = create_image(capital,total,sub_name,wealth_manager)
-        full_pic.save(f_name_1, "JPEG", quality=80, optimize=True, progressive=True)
-        return send_file(f_name_1,mimetype='image/jpeg') 
+        buf = io.BytesIO()
+        full_pic.save(buf, "JPEG", quality=80, optimize=True, progressive=True)
+        buf.seek(0)
+        return send_file(buf,mimetype='image/jpeg')
+
     if __name__ == "__main__":
         app.run()
     return app 

@@ -105,11 +105,11 @@ def create_image(capital,total,sub_name,wealth_manager):
     sx.set(xlabel=None)
     sx.set(xticklabels=[])
     sx.set_yticklabels(y_ticks, size = 30)
-    f_name = str(randint(0,5000)) + ".jpeg"
-    plt.savefig(f_name, format='jpeg',dpi=170)
+    buf = io.BytesIO()
+    plt.savefig(buf, format='jpeg',dpi=170)
+    buf.seek(0)
+    chart_img = Image.open(buf)
     plt.clf()
-    chart_img = Image.open(f_name)
     foreground  = convertImage(chart_img)
     background.paste(foreground, (1100,2500), foreground)
-    os.remove(f_name)
     return background
