@@ -55,7 +55,7 @@ def create_image(capital,total,sub_name,wealth_manager):
     wlt_mang_loc  = (2060,4220)
     wlt_mang_col  = (55,57,54)
 
-    img = Image.open("latest_template_appended.jpeg").convert('RGB')
+    img = Image.open("latest_temp.jpeg").convert('RGB')
     draw = ImageDraw.Draw(img)
     draw.text(sub_name_loc,sub_name,sub_name_col,font=sub_name_font)
     draw.text(cap_inv_loc,cap_inv,cap_inv_col,font=cap_inv_font)
@@ -102,8 +102,8 @@ def create_image(capital,total,sub_name,wealth_manager):
     y_ticks = [f'{i:,}' for i in y_ticks]
     sx.set(xlabel=None)
     sx.set(ylabel=None)
-    sx.set(xlabel=None)
-    sx.set(xticklabels=[])
+    #sx.set(xticklabels=[])
+    plt.xticks(fontsize=25)
     sx.set_yticklabels(y_ticks, size = 30)
     buf = io.BytesIO()
     plt.savefig(buf, format='jpeg',dpi=170)
