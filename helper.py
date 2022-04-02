@@ -103,7 +103,7 @@ def create_image(capital,total,sub_name,wealth_manager):
     sx.set(xlabel=None)
     sx.set(ylabel=None)
     #sx.set(xticklabels=[])
-    plt.xticks(fontsize=25)
+    plt.xticks(fontsize=30)
     sx.set_yticklabels(y_ticks, size = 30)
     buf = io.BytesIO()
     plt.savefig(buf, format='jpeg',dpi=170)
