@@ -9,12 +9,11 @@ from flask import send_file
 from helper import create_image 
 import io 
 from random import randint
-img_original = Image.open("latest_temp.jpeg").convert('RGB')
 def create_app() :
     app = Flask(__name__)
     @app.route("/",methods=['GET'])
     def show():
-        img = img_original.copy()
+        img = Image.open("latest_temp.jpeg").convert('RGB')
         capital        = request.args.get('cl_nt_cp', default = 1, type = float)
         total          = request.args.get('cl_tot_po', default = 1, type = float)
         sub_name       = request.args.get('cl_nm', default = 1, type = str)
