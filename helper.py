@@ -107,4 +107,4 @@ def create_image(capital,total,sub_name,wealth_manager,img1):
     plt.clf()
     foreground  = convertImage(chart_img)
     background.paste(foreground, (1100,2500), foreground)
-    return background
+    return background.resize((1024,1024))
