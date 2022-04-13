@@ -9,22 +9,18 @@ import matplotlib
 import io
 from random import randint
 import os
-
+import numpy as np 
 
 matplotlib.pyplot.switch_backend('Agg')
 matplotlib.use('agg')
+
 def convertImage(img):
-    img = img.convert("RGBA")
-    datas = img.getdata()
-    newData = []
-    for item in datas:
-        if item[0] >= 230 and item[1] >= 230 and item[2] >= 230:
-            newData.append((255, 255, 255, 0))
-        else:
-            newData.append(item)
-    img.putdata(newData)
-    return img
-def create_image(capital,total,sub_name,wealth_manager):
+    x = np.asarray(img.convert('RGBA')).copy()
+    x[:, :, 3] = (255 * (x[:, :, :3] < 230).any(axis=2)).astype(np.uint8)
+    return Image.fromarray(x)
+
+def create_image(capital,total,sub_name,wealth_manager,img1):
+    img = img1.copy()
     tot_cap_diff = int(total - capital)
     sub_name_font = ImageFont.truetype(r'Nexa Light.otf', 100)
     sub_name_loc  = (1700,850)
@@ -55,7 +51,6 @@ def create_image(capital,total,sub_name,wealth_manager):
     wlt_mang_loc  = (2060,4220)
     wlt_mang_col  = (55,57,54)
 
-    img = Image.open("latest_temp.jpeg").convert('RGB')
     draw = ImageDraw.Draw(img)
     draw.text(sub_name_loc,sub_name,sub_name_col,font=sub_name_font)
     draw.text(cap_inv_loc,cap_inv,cap_inv_col,font=cap_inv_font)
@@ -93,8 +88,8 @@ def create_image(capital,total,sub_name,wealth_manager):
     for index,p in enumerate(sx.patches):
         if(index > 2) :
             break
-        print(f"Now processing the patch index{index}",p)
-        print("Will annotate with : " , ann_txt[index])
+        #print(f"Now processing the patch index{index}",p)
+        #print("Will annotate with : " , ann_txt[index])
         sx.annotate(f'\n{ann_txt[index]}',
                     (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='top', color=ann[index], size=30)
     sns.barplot(x = 'Day', y = 'Price 2', data = df, color = 'white')

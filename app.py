@@ -9,7 +9,7 @@ from flask import send_file
 from helper import create_image 
 import io 
 from random import randint
-
+img = Image.open("latest_temp.jpeg").convert('RGB')
 def create_app() :
     app = Flask(__name__)
     @app.route("/",methods=['GET','POST'])
@@ -23,12 +23,12 @@ def create_app() :
         wealth_manager = wealth_manager + f": {wlt_mang_num}"
         capital = int(capital)
         total = int(total)
-        full_pic = create_image(capital,total,sub_name,wealth_manager)
+        full_pic = create_image(capital,total,sub_name,wealth_manager,img)
+        full_pic = full_pic.resize((1024, 1024))
         buf = io.BytesIO()
         full_pic.save(buf, "JPEG", quality=80, optimize=True, progressive=True)
         buf.seek(0)
         return send_file(buf,mimetype='image/jpeg')
-
     if __name__ == "__main__":
         app.run()
     return app 
