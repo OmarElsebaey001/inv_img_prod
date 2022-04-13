@@ -15,7 +15,7 @@ matplotlib.pyplot.switch_backend('Agg')
 matplotlib.use('agg')
 
 def convertImage(img):
-    x = np.asarray(img.convert('RGBA')).copy()
+    x = np.asarray(img.convert('RGBA'))
     x[:, :, 3] = (255 * (x[:, :, :3] < 230).any(axis=2)).astype(np.uint8)
     return Image.fromarray(x)
 
@@ -88,8 +88,6 @@ def create_image(capital,total,sub_name,wealth_manager,img1):
     for index,p in enumerate(sx.patches):
         if(index > 2) :
             break
-        #print(f"Now processing the patch index{index}",p)
-        #print("Will annotate with : " , ann_txt[index])
         sx.annotate(f'\n{ann_txt[index]}',
                     (p.get_x() + p.get_width() / 2, p.get_height()), ha='center', va='top', color=ann[index], size=30)
     sns.barplot(x = 'Day', y = 'Price 2', data = df, color = 'white')
@@ -97,7 +95,6 @@ def create_image(capital,total,sub_name,wealth_manager,img1):
     y_ticks = [f'{i:,}' for i in y_ticks]
     sx.set(xlabel=None)
     sx.set(ylabel=None)
-    #sx.set(xticklabels=[])
     plt.xticks(fontsize=30)
     sx.set_yticklabels(y_ticks, size = 30)
     buf = io.BytesIO()
@@ -106,5 +103,6 @@ def create_image(capital,total,sub_name,wealth_manager,img1):
     chart_img = Image.open(buf)
     plt.clf()
     foreground  = convertImage(chart_img)
+    del chart_img 
     background.paste(foreground, (1100,2500), foreground)
     return background.resize((1024,1024))
